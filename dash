@@ -5,7 +5,7 @@ import "../components/Dash.css";
 import Search from "./Search";
 import Groupicon from "./Groupicon";
 
-const emp = [
+const empData = [
   { id: 1, name: "Yash", group: "hbdiyqwd" },
   { id: 2, name: "Yash", group: "sbhqwvdy" },
   { id: 3, name: "Yash", group: "xbqhwbdq" },
@@ -14,47 +14,42 @@ const emp = [
   { id: 6, name: "Aysuh", group: 96 },
   { id: 7, name: "Aysuh", group: 96 },
 ];
+
 //Select row functionality
 function Dash() {
   const [selectedRows, setSelectedRows]=useState([]);
+  const [emp, setEmp] = useState(empData);   // ✅ store employee state
+  const [query, setQuery] = useState("");    // ✅ for search
 
-const handleSelectAll=(e)=>{
-  if(e.target.checked){
-    setSelectedRows(emp.map((i)=>i.id));
+  const handleSelectAll=(e)=>{
+    if(e.target.checked){
+      setSelectedRows(emp.map((i)=>i.id));
+    }
+    else{
+      setSelectedRows([]);
+    }
+  }; 
+
+  const handleSelectrow=(id)=>{
+    if(selectedRows.includes(id)){
+      setSelectedRows(selectedRows.filter((rowId)=>rowId!==id));
+    }
+    else{
+      setSelectedRows([...selectedRows,id]);
+    }
   }
-  else{
-    setSelectedRows([]);
-  }
-}; 
 
-const handleSelectrow=(id)=>{
-  if(selectedRows.includes(id)){
-    setSelectedRows(selectedRows.filter((rowId)=>rowId!==id));
-  }
-  else{
-    setSelectedRows([...selectedRows,id]);
-  }
-}
+  const removeUser = (id) => {     // ✅ remove user by id
+    setEmp(emp.filter((i)=> i.id !== id));
+    setSelectedRows(selectedRows.filter((rowId)=> rowId !== id));
+  };
 
-//remove user
-const [users,setUsers]=useState(emp);
+  const isSelectAll =selectedRows.length===emp.length;
 
-    const remove=(id)=>{
-        setUsers(users.filter(i=>i.id !== id));
-        setSelectedRows(selectedRows.filter(rowId=>rowId!==id));
-    };
-
-
-
-const isSelectAll =selectedRows.length===emp.length;
-
-
-
-//Search Functionality
-const[query,setQuery]=useState("");
-
-    const filteredData = emp.filter(item=>item.name.toLowerCase().includes(query.toLowerCase()));
-
+  // ✅ filter employees based on search
+  const filteredData = emp.filter((i)=>
+    i.name.toLowerCase().includes(query.toLowerCase())
+  );
 
   return (
     <div className="dashboard-container">
@@ -92,20 +87,15 @@ const[query,setQuery]=useState("");
         <div className="content-area">
           {/* Search & Filters */}
           <div className="search-filter-container">
-            {/* <Form className="d-flex search-bar">
-              <FormControl type="search" placeholder="Search" />
-              <Button variant="outline-secondary">
-                <FaSearch />
-              </Button>
-            </Form> */}
             <div style={{position:"relative",width:"250px"}}>
-              <input type="text" placeholder="Search" value={query} onChange={(e)=>setQuery(e.target.value)} style={{paddingLeft:"35px",width:"100%",height:"35px", borderRadius:"5px", border:"1px solid #ccc"}}/>
+              <input 
+                type="text" 
+                placeholder="Search" 
+                value={query} 
+                onChange={(e)=>setQuery(e.target.value)} 
+                style={{paddingLeft:"35px",width:"100%",height:"35px", borderRadius:"5px", border:"1px solid #ccc"}}
+              />
               <FaSearch style={{position:"absolute", left:"10px",top:"50%",transform :"translateY(-50%)",color:"#888"}}/>
-              {/* <ul>
-                {filteredData.map(item=>(
-                    <li key={item.id}>{item.name}</li>
-                ))}
-              </ul> */}
             </div>
 
             <Dropdown className="group-dropdown">
@@ -140,7 +130,7 @@ const[query,setQuery]=useState("");
               </tr>
             </thead>
             <tbody>
-              {emp.map((i) => (
+              {filteredData.map((i) => (
                 <tr key={i.id}>
                   <td><input type="checkbox" checked={selectedRows.includes(i.id)}  onChange={()=>handleSelectrow(i.id)}/></td>
                   <td>{i.id}</td>
@@ -156,8 +146,7 @@ const[query,setQuery]=useState("");
                     <FaFolder style={{ color: "gold" }} />
                   </td>
                   <td>
-                    <FaUserMinus style={{ color: "red" }} onClick={()=> remove(i.id)}/>
-                     
+                    <FaUserMinus style={{ color: "red", cursor:"pointer" }} onClick={()=> removeUser(i.id)}/>
                   </td>
                 </tr>
               ))}
