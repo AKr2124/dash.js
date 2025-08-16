@@ -1,0 +1,331 @@
+.dashboard-container {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #c2defa;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+ 
+.navbar {
+  
+  background-color: white;
+  border-bottom: 1px solid #dee2e6;
+  padding: 10px;
+  border-radius: 6px;
+  margin: 0 5px 5px 5px;
+  
+}
+ 
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color:white;
+  border-radius: 10px;
+  padding: 0.5 rem 1rem;
+  padding-left: 10px;
+  width: 98%;
+  /* margin: 0 auto; */
+}
+.img{
+  padding-left: 15px;
+}
+.navbar-icons > * {
+  margin-left: 1rem;
+  color: #0d6efd;
+  cursor: pointer;
+  padding-right: 3px;
+}
+ 
+.main-content {
+  display: flex;
+  height: auto;
+}
+ 
+.sidebar {
+  width: 100px;
+  background-color: white;
+  border-right: 1px solid #dee2e6;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 1rem;
+  gap: 1.5rem;
+  color: #0d6efd;
+  cursor: pointer;
+  margin-top: 5px;
+  border-radius: 10px;
+  margin-left: 5px;
+  margin-bottom: 8px;
+}
+ 
+.content-area {
+  width: 500px;
+  flex-grow: 1;
+  padding: 1rem;
+  background-color: white;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-right: 5px;
+  box-shadow: 0 1px 8px rgb(0 0 0 / 0.1);
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+ 
+.search-filter-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.search {
+  width: 300px; /* Adjust width as needed */
+ 
+  border: 2px solid black;
+  border-radius: 18px;
+}
+ 
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+ 
+.search-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px; /* 🔁 changed from left to right */
+  transform: translateY(-50%);
+  color: gray;
+  pointer-events: none;
+}
+ 
+.search-input {
+  width: 100%;
+  height: 40px;
+  padding-right: 35px; /* 🔁 added padding-right instead of padding-left */
+ 
+  border: 1px solid #ccc;
+}
+
+ 
+.group-dropdown .btn {
+  /* border-radius: 0;
+  background-color: white;
+  color: #0d6efd;
+  border: 1px solid #0d6efd; */
+  border: 1px solid #495057;
+  font-weight: 600;
+
+}
+ 
+.group-dropdown .btn:hover,
+.group-dropdown .btn:focus {
+  background-color: #e1eaff;
+  color: #0d6efd;
+}
+ 
+.employee-table {
+  background-color: white;
+  border-collapse: separate !important; /* allow border radius */
+  border-spacing: 0 8px; /* vertical spacing between rows */
+  box-shadow: 0 5px 6px rgb(0 0 0 / 0.1);
+  border-radius: 5px;
+}
+ 
+.employee-table thead tr th {
+  background-color: transparent;
+  color: #495057;
+  font-weight: 700;
+  border-bottom: none;
+  padding: 12px 15px;
+  vertical-align: middle;
+  user-select: none;
+}
+ 
+.employee-table tbody tr {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.05);
+  transition: background-color 0.3s ease;
+}
+ 
+.employee-table tbody tr:hover {
+  background-color: #f1f5fb;
+}
+ 
+.employee-table tbody tr td {
+  padding: 12px 15px;
+  vertical-align: middle;
+  border: none;
+  color: #212529;
+  font-size: 14px;
+  text-align: center;
+}
+ 
+.employee-table tbody tr td:first-child {
+  padding-left: 20px;
+  width: 50px;
+}
+ 
+.employee-table tbody tr td:nth-child(2),
+.employee-table tbody tr td:nth-child(3),
+.employee-table tbody tr td:nth-child(4) {
+  font-weight: 600;
+}
+ 
+/* Common style for all icons in table cells */
+.employee-table tbody tr td svg {
+  vertical-align: middle;
+  margin: 0 5px;
+  color: #0d6efd; /* default icon blue */
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+ 
+.employee-table tbody tr td svg:hover {
+  color: #0047b3;
+}
+ 
+/* Remove User icon red color and hover */
+.remove-user-icon {
+  color: #e00; /* bright red */
+  margin-left: 0; /* override margin */
+}
+ 
+.remove-user-icon:hover {
+  color: #a00;
+}
+ 
+/* For checkboxes column */
+.employee-table thead{
+  text-align: center;
+}
+.employee-table thead th:first-child,
+.employee-table tbody td:first-child {
+  width: 50px;
+  text-align: center;
+  vertical-align: middle;
+}
+ 
+.employee-table thead th:first-child svg,
+.employee-table tbody td:first-child svg {
+  font-size: 18px;
+  color: #6c757d;
+  cursor: pointer;
+}
+ 
+.employee-table thead th:first-child svg:hover,
+.employee-table tbody td:first-child svg:hover {
+  color: #0d6efd;
+}
+ 
+/* Search input styling */
+.form-control[type="search"] {
+  border-radius: 20px;
+  border: 1px solid #ced4da;
+  padding-left: 1rem;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+ 
+.form-control[type="search"]:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 6px #a7c7ff;
+  outline: none;
+}
+ 
+/* Buttons styling */
+.btn-outline-secondary {
+  border-radius: 6px;
+  color: #495057;
+  border-color: #ced4da;
+  font-size: 16px;
+  padding: 6px 10px;
+}
+ 
+.for_access {
+  border: 2px solid #c2defa;
+  border-radius: 6px;
+  padding: 2px;
+}
+ 
+/* Style for the container */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+ 
+/* The main button */
+.for_access {
+  padding: 10px 15px;
+ 
+  color: black;
+  border-radius: 4px;
+  cursor: pointer;
+}
+ 
+/* Hidden dropdown by default */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ddd;
+  min-width: 160px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+ 
+/* Items inside the dropdown */
+.dropdown-item {
+  padding: 10px 15px;
+  cursor: pointer;
+}
+ 
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+ 
+/* Optional: Highlight on hover */
+.dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+ 
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+ 
+.for_access {
+  padding: 10px 15px;
+  color: black;
+  border-radius: 4px;
+  cursor: pointer;
+}
+ 
+.dropdown-menu {
+  display: none; /* Hidden by default */
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ddd;
+  min-width: 160px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+ 
+.dropdown-item {
+  padding: 10px 15px;
+  cursor: pointer;
+}
+ 
+.dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+FaUserMinus{
+  color: red;
+}
