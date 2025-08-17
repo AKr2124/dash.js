@@ -100,3 +100,113 @@ function Dash() {
           <div className="search-filter-container">
             <div style={{ position: "relative", width: "250px" }}>
               <input
+                type="text"
+                placeholder="Search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                style={{
+                  paddingLeft: "35px",
+                  width: "100%",
+                  height: "35px",
+                  borderRadius: "5px",
+                  border: "1px solid #ccc",
+                }}
+              />
+              <FaSearch
+                style={{
+                  position: "absolute",
+                  left: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "#888",
+                }}
+              />
+            </div>
+
+            {/* Group Dropdown */}
+            <Dropdown className="group-dropdown">
+              <Dropdown.Toggle variant="btn-primary">
+                {selectedGroup === "" ? "All Groups" : selectedGroup}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => setSelectedGroup("")}>
+                  All Groups
+                </Dropdown.Item>
+                {uniqueGroups.map((g, idx) => (
+                  <Dropdown.Item key={idx} onClick={() => setSelectedGroup(g)}>
+                    {g}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+
+            <Button
+              variant="outline-secondary"
+              onClick={() => {
+                setEmp(emp.filter((i) => !selectedRows.includes(i.id)));
+                setSelectedRows([]);
+              }}
+            >
+              <FaTrash />
+            </Button>
+          </div>
+
+          {/* Employee Table */}
+          <Table bordered hover className="employee-table">
+            <thead>
+              <tr>
+                <th>
+                  <input
+                    type="checkbox"
+                    checked={isSelectAll}
+                    onChange={handleSelectAll}
+                  />
+                </th>
+                <th>Employee Id</th>
+                <th>Name</th>
+                <th>Group</th>
+                <th>Profile</th>
+                <th>Permission</th>
+                <th>File</th>
+                <th>Remove User</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredData.map((i) => (
+                <tr key={i.id}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={selectedRows.includes(i.id)}
+                      onChange={() => handleSelectrow(i.id)}
+                    />
+                  </td>
+                  <td>{i.id}</td>
+                  <td>{i.name}</td>
+                  <td>{i.group}</td>
+                  <td>
+                    <FaUser style={{ color: "black" }} />
+                  </td>
+                  <td>
+                    <Groupicon />
+                  </td>
+                  <td>
+                    <FaFolder style={{ color: "gold" }} />
+                  </td>
+                  <td>
+                    <FaUserMinus
+                      style={{ color: "red", cursor: "pointer" }}
+                      onClick={() => removeUser(i.id)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Dash;
