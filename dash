@@ -1,6 +1,15 @@
 import React, { useState } from "react";
-import {Form,Button,Dropdown,Navbar,Container,FormControl,Table} from "react-bootstrap";
-import {FaUserPlus,FaTrash,FaSearch,FaBell,FaUser,FaCheckSquare,FaSquare,FaFolder,FaUserMinus} from "react-icons/fa";
+import { Form, Button, Dropdown, Navbar, Container, FormControl, Table } from "react-bootstrap";
+import {
+  FaUserPlus,
+  FaTrash,
+  FaSearch,
+  FaBell,
+  FaUser,
+  FaSquare,
+  FaFolder,
+  FaUserMinus,
+} from "react-icons/fa";
 import "../components/Dash.css";
 import Search from "./Search";
 import Groupicon from "./Groupicon";
@@ -17,38 +26,42 @@ const empData = [
 
 //Select row functionality
 function Dash() {
-  const [selectedRows, setSelectedRows]=useState([]);
-  const [emp, setEmp] = useState(empData);   // ✅ store employee state
-  const [query, setQuery] = useState("");    // ✅ for search
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [emp, setEmp] = useState(empData);
+  const [query, setQuery] = useState(""); // ✅ for search
+  const [selectedGroup, setSelectedGroup] = useState(""); // ✅ for group filter
 
-  const handleSelectAll=(e)=>{
-    if(e.target.checked){
-      setSelectedRows(emp.map((i)=>i.id));
-    }
-    else{
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setSelectedRows(emp.map((i) => i.id));
+    } else {
       setSelectedRows([]);
     }
-  }; 
-
-  const handleSelectrow=(id)=>{
-    if(selectedRows.includes(id)){
-      setSelectedRows(selectedRows.filter((rowId)=>rowId!==id));
-    }
-    else{
-      setSelectedRows([...selectedRows,id]);
-    }
-  }
-
-  const removeUser = (id) => {     // ✅ remove user by id
-    setEmp(emp.filter((i)=> i.id !== id));
-    setSelectedRows(selectedRows.filter((rowId)=> rowId !== id));
   };
 
-  const isSelectAll =selectedRows.length===emp.length;
+  const handleSelectrow = (id) => {
+    if (selectedRows.includes(id)) {
+      setSelectedRows(selectedRows.filter((rowId) => rowId !== id));
+    } else {
+      setSelectedRows([...selectedRows, id]);
+    }
+  };
 
-  // ✅ filter employees based on search
-  const filteredData = emp.filter((i)=>
-    i.name.toLowerCase().includes(query.toLowerCase())
+  const removeUser = (id) => {
+    setEmp(emp.filter((i) => i.id !== id));
+    setSelectedRows(selectedRows.filter((rowId) => rowId !== id));
+  };
+
+  const isSelectAll = selectedRows.length === emp.length;
+
+  // ✅ derive unique groups from emp
+  const uniqueGroups = [...new Set(emp.map((i) => i.group))];
+
+  // ✅ filter employees based on search + selected group
+  const filteredData = emp.filter(
+    (i) =>
+      i.name.toLowerCase().includes(query.toLowerCase()) &&
+      (selectedGroup === "" || i.group === selectedGroup)
   );
 
   return (
@@ -57,7 +70,7 @@ function Dash() {
       <Navbar className="navbar shadow-sm">
         <div className="navbar-container">
           <Navbar.Brand href="#">
-            <img 
+            <img
               src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Standard_Chartered_(2021).svg"
               alt="logo"
               height={40}
@@ -87,24 +100,45 @@ function Dash() {
         <div className="content-area">
           {/* Search & Filters */}
           <div className="search-filter-container">
-            <div style={{position:"relative",width:"250px"}}>
-              <input 
-                type="text" 
-                placeholder="Search" 
-                value={query} 
-                onChange={(e)=>setQuery(e.target.value)} 
-                style={{paddingLeft:"35px",width:"100%",height:"35px", borderRadius:"5px", border:"1px solid #ccc"}}
+            <div style={{ position: "relative", width: "250px" }}>
+              <input
+                type="text"
+                placeholder="Search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                style={{
+                  paddingLeft: "35px",
+                  width: "100%",
+                  height: "35px",
+                  borderRadius: "5px",
+                  border: "1px solid #ccc",
+                }}
               />
-              <FaSearch style={{position:"absolute", left:"10px",top:"50%",transform :"translateY(-50%)",color:"#888"}}/>
+              <FaSearch
+                style={{
+                  position: "absolute",
+                  left: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "#888",
+                }}
+              />
             </div>
 
+            {/* ✅ Group Dropdown */}
             <Dropdown className="group-dropdown">
               <Dropdown.Toggle variant="btn-primary">
-                Groups
+                {selectedGroup === "" ? "All Groups" : selectedGroup}
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item>Group 1</Dropdown.Item>
-                <Dropdown.Item>Group 2</Dropdown.Item>
+                <Dropdown.Item onClick={() => setSelectedGroup("")}>
+                  All Groups
+                </Dropdown.Item>
+                {uniqueGroups.map((g, idx) => (
+                  <Dropdown.Item key={idx} onClick={() => setSelectedGroup(g)}>
+                    {g}
+                  </Dropdown.Item>
+                ))}
               </Dropdown.Menu>
             </Dropdown>
 
@@ -118,7 +152,11 @@ function Dash() {
             <thead>
               <tr>
                 <th>
-                  <input type="checkbox" checked={isSelectAll}  onChange={handleSelectAll}/>
+                  <input
+                    type="checkbox"
+                    checked={isSelectAll}
+                    onChange={handleSelectAll}
+                  />
                 </th>
                 <th>Employee Id</th>
                 <th>Name</th>
@@ -132,7 +170,13 @@ function Dash() {
             <tbody>
               {filteredData.map((i) => (
                 <tr key={i.id}>
-                  <td><input type="checkbox" checked={selectedRows.includes(i.id)}  onChange={()=>handleSelectrow(i.id)}/></td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={selectedRows.includes(i.id)}
+                      onChange={() => handleSelectrow(i.id)}
+                    />
+                  </td>
                   <td>{i.id}</td>
                   <td>{i.name}</td>
                   <td>{i.group}</td>
@@ -146,7 +190,10 @@ function Dash() {
                     <FaFolder style={{ color: "gold" }} />
                   </td>
                   <td>
-                    <FaUserMinus style={{ color: "red", cursor:"pointer" }} onClick={()=> removeUser(i.id)}/>
+                    <FaUserMinus
+                      style={{ color: "red", cursor: "pointer" }}
+                      onClick={() => removeUser(i.id)}
+                    />
                   </td>
                 </tr>
               ))}
