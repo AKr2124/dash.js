@@ -57,10 +57,12 @@ function Dash() {
   const uniqueGroups = [...new Set(emp.map((i) => i.group))];
 
   const filteredData = emp.filter(
-    (i) =>
-      i.name.toLowerCase().includes(query.toLowerCase()) &&
-      (selectedGroup === "" || i.group === selectedGroup)
-  );
+  (i) =>
+    (i.name.toLowerCase().includes(query.toLowerCase()) ||
+     i.id.toString().includes(query)) &&
+    (selectedGroup === "" || i.group === selectedGroup)
+);
+
 
   return (
     <div className="dashboard-container">
